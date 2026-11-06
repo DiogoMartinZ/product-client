@@ -1,59 +1,82 @@
-# ProductClient
+========================================================================
+                 INVENTORY MANAGEMENT APPLICATION
+                         DOCUMENTATION
+========================================================================
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.5.
+1. SYSTEM OVERVIEW
+------------------------------------------------------------------------
+This application is a full-stack Inventory Management solution designed
+with a modern tech stack:
+  - Frontend: Angular (Standalone components, Reactive Forms, SCSS)
+  - Backend:  ASP.NET Core Web API (C#, LINQ)
+  - Database: SQLite (Relational, file-based embedded database)
+  - Security: Angular Auth Guards for route protection
 
-## Development server
+Key Features:
+  - Default Admin Authentication
+  - Server-side filtering (Search terms, Price ranges via LINQ)
+  - Inline stock level quick controls (+ and - buttons)
+  - Full CRUD operations with instant UI reactivity
+  - Custom floating success Toast notifications
 
-To start a local development server, run:
 
-```bash
-ng serve
-```
+2. DEFAULT ACCESS CREDENTIALS
+------------------------------------------------------------------------
+To log in to the application, use the following pre-configured 
+administrator account:
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+   Username: admin
+   Password: admin123
 
-## Code scaffolding
+These credentials allow access to the protected inventory dashboard.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
+3. HOW TO RUN LOCALLY
+------------------------------------------------------------------------
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Prerequisites:
+  - .NET SDK (version 7.0 or higher)
+  - Node.js (LTS version recommended)
+  - Angular CLI (npm install -g @angular/cli)
 
-```bash
-ng generate --help
-```
+------------------------------------------------------------------------
+Step 1: Start the Backend (.NET Web API)
+------------------------------------------------------------------------
+1. Open a terminal and navigate to the backend project root folder:
+     cd path/to/your/backend
 
-## Building
+2. Restore NuGet dependencies:
+     dotnet restore
 
-To build the project run:
+3. Run the API project:
+     dotnet run
 
-```bash
-ng build
-```
+The backend API will start running (typically at https://localhost:7143).
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+------------------------------------------------------------------------
+Step 2: Start the Frontend (Angular)
+------------------------------------------------------------------------
+1. Open a new terminal window and navigate to the Angular client folder:
+     cd path/to/your/frontend/product-client
 
-## Running unit tests
+2. Install Node dependencies:
+     npm install
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+3. Run the development server:
+     ng serve
 
-```bash
-ng test
-```
+4. Open your browser and go to:
+     http://localhost:4200
 
-## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+4. APPLICATION ARCHITECTURE & FEATURES
+------------------------------------------------------------------------
+- Route Guard (authGuard): Ensures unauthenticated users are redirected 
+  to the /login page if they attempt to access /products directly.
+- Server-Side Querying: Filtering parameters (search, minPrice, maxPrice) 
+  are sent directly via HttpParams to execute optimized SQL queries.
+- UI Reactivity: State changes trigger immediate ChangeDetectorRef 
+  updates to keep the interface perfectly synchronized.
+- Logout Feature: Clear stored user credentials from local storage and 
+  redirect safely back to the login screen.
+================================================----------------========
