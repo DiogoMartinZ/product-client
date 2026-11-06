@@ -1,0 +1,205 @@
+<div class="product-container">
+ 
+    <!-- Cabeçalho -->
+    <div class="page-header">
+        <div>
+            <h2>Catálogo de Produtos</h2>
+            <p class="subtitle">Gestão de stock e inventário</p>
+        </div>
+
+        
+<button class="btn-secondary btn-logout" (click)="logout()" title="Terminar sessão">
+      🚪 Sair
+    </button>
+       
+    </div>
+<div class="toast-notification" *ngIf="successMessage">
+  ✅ {{ successMessage }}
+</div>
+<div class="filters-row">
+  
+<div class="filter-group search-group">
+  <span class="search-icon">🔍</span>
+  <input 
+    type="text" 
+    [(ngModel)]="searchTerm" 
+    (input)="onFilterChange()" 
+    placeholder="Pesquisar por nome ou descrição..." 
+    class="filter-input">
+</div>
+
+<!-- Preço Mínimo -->
+<div class="filter-group">
+  <input 
+    type="number" 
+    [(ngModel)]="minPrice" 
+    (input)="onFilterChange()" 
+    placeholder="Preço Mín. (€)" 
+    class="filter-input"
+    min="0"
+    step="0.01">
+</div>
+
+<!-- Preço Máximo -->
+<div class="filter-group">
+  <input 
+    type="number" 
+    [(ngModel)]="maxPrice" 
+    (input)="onFilterChange()" 
+    placeholder="Preço Máx. (€)" 
+    class="filter-input"
+    min="0"
+    step="0.01">
+</div>
+
+<button class="btn-primary" (click)="openCreateModal()">
+            ➕ Novo Produto
+        </button>
+</div>
+
+    <!-- Tabela -->
+    <div class="card mt-3">
+    <div class="table-responsive">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th class="text-right">Preço</th>
+            <th class="text-center">Stock</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ATENÇÃO: Mudou de 'products' para 'filteredProducts' -->
+          <tr *ngFor="let product of products">
+            <td class="font-mono text-muted">{{ product.id }}</td>
+            <td class="font-weight-bold">{{ product.name }}</td>
+            <td class="text-muted">{{ product.description }}</td>
+            <td class="text-right price">{{ product.price | currency:'EUR' }}</td>
+            <td class="text-center">
+              <div class="stock-control-group">
+                <button class="btn-adjust" (click)="adjustStock(product, -1)" title="Reduzir 1 unidade">-</button>
+            
+                <span class="badge" [ngClass]="{'badge-low': product.stock < 5, 'badge-ok': product.stock >= 5}">
+                  {{ product.stock }} un.
+                </span>
+            
+                <button class="btn-adjust" (click)="adjustStock(product, 1)" title="Aumentar 1 unidade">+</button>
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="action-buttons">
+                <button class="btn-icon btn-edit" type="button" (click)="openEditModal(product)" title="Editar">✏️</button>
+                <button class="btn-icon btn-delete" (click)="deleteProduct(product.id)" title="Apagar">🗑️</button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Estado Vazio (caso a pesquisa não encontre nada) -->
+          <tr *ngIf="products.length === 0">
+            <td colspan="6" class="empty-state">
+              Nenhum produto encontrado com "{{ searchTerm }}".
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+    <!-- Modal Criar / Editar Produto -->
+    <div class="modal-overlay" *ngIf="showModal">
+
+        <div class="modal-card">
+
+            <div class="modal-header">
+                <h3>
+                    {{ isEditMode ? 'Editar Produto' : 'Adicionar Novo Produto' }}
+                </h3>
+
+                <button class="btn-close" (click)="closeModal()">
+                    ✕
+                </button>
+            </div>
+
+            <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+
+                <!-- Nome -->
+                <div class="form-group">
+                    <label>Nome do Produto</label>
+
+                    <input
+                        type="text"
+                        formControlName="name"
+                        placeholder="Ex: Teclado Mecânico">
+
+                    <div class="error-msg"
+                        *ngIf="productForm.get('name')?.invalid &&
+                               productForm.get('name')?.touched">
+                        O nome é obrigatório.
+                    </div>
+                </div>
+
+                <!-- Descrição -->
+                <div class="form-group">
+                    <label>Descrição</label>
+
+                    <textarea
+                        formControlName="description"
+                        placeholder="Breve descrição do produto...">
+                    </textarea>
+
+                    <div class="error-msg"
+                        *ngIf="productForm.get('description')?.invalid &&
+                               productForm.get('description')?.touched">
+                        A descrição é obrigatória.
+                    </div>
+                </div>
+
+                <!-- Preço e Stock -->
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label>Preço (€)</label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            formControlName="price">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock Inicial</label>
+
+                        <input
+                            type="number"
+                            formControlName="stock">
+                    </div>
+
+                </div>
+
+                <!-- Botões -->
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn-secondary"
+                        (click)="closeModal()">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        {{ isEditMode ? 'Guardar Alterações' : 'Criar Produto' }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+

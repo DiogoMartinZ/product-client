@@ -1,0 +1,34 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Painel de Gestão</h2>
+      <p class="subtitle">Introduz as tuas credenciais para aceder</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="form-group">
+        <label>Utilizador</label>
+        <input type="text" formControlName="username" placeholder="O teu nome de utilizador">
+        <div class="error-msg" *ngIf="loginForm.get('username')?.touched && loginForm.get('username')?.invalid">
+          O utilizador é obrigatório.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Palavra-passe</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+        <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+          A palavra-passe é obrigatória.
+        </div>
+      </div>
+
+      <div class="error-alert" *ngIf="errorMessage">
+        ⚠️ {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-primary btn-block" [disabled]="isLoading">
+         (Entrar)
+      </button>
+    </form>
+  </div>
+</div>

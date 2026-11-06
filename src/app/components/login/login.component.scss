@@ -1,0 +1,132 @@
+/* --- Variáveis Globais (consistentes com o teu projeto) --- */
+$primary-color: #0052cc;
+$primary-hover: #0040a1;
+$bg-color: #f4f6f9;
+$text-main: #333333;
+$text-muted: #6b7280;
+$border-color: #e5e7eb;
+
+/* --- Contentor Principal do Ecrã de Login --- */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $bg-color;
+  font-family: system-ui, -apple-system, sans-serif;
+  padding: 16px;
+}
+
+/* --- Cartão de Login --- */
+.login-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 36px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  border: 1px solid $border-color;
+  animation: modalFadeIn 0.25s ease-out;
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 28px;
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .subtitle {
+      margin: 6px 0 0 0;
+      font-size: 14px;
+      color: $text-muted;
+    }
+  }
+
+  /* --- Formulário --- */
+  form {
+    .form-group {
+      margin-bottom: 18px;
+
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 6px;
+      }
+
+      input {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+        box-sizing: border-box;
+        transition: border-color 0.15s, box-shadow 0.15s;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
+        }
+
+        &::placeholder {
+          color: $text-muted;
+        }
+      }
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: #dc2626;
+      margin-top: 4px;
+    }
+
+    /* --- Alerta de Erro de Autenticação --- */
+    .error-alert {
+      background-color: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* --- Botão de Submissão --- */
+    .btn-block {
+      width: 100%;
+      margin-top: 8px;
+      padding: 12px;
+      font-size: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+/* --- Animação de Entrada --- */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
